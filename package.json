@@ -17,6 +17,15 @@
   },
   "homepage": "https://github.com/RyanKaleliGabriel/RestoreMe#readme",
   "dependencies": {
-    "@inquirer/prompts": "^7.1.0"
+    "@inquirer/prompts": "^7.1.0",
+    "commander": "^12.1.0",
+    "mongodb": "^6.10.0",
+    "mysql2": "^3.11.4",
+    "pg": "^8.13.1",
+    "typescript": "^5.6.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.1",
+    "@types/pg": "^8.11.10"
   }
 }

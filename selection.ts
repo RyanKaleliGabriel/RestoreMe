@@ -18,12 +18,6 @@ const backupProcess = async () => {
           " A widely used open-source relational database known for its speed, ease of use, and reliability, popular in web applications and scalable environments.",
       },
       {
-        name: "redis",
-        value: "redis",
-        description:
-          "An open-source, in-memory key-value store widely used for caching, real-time analytics, and message brokering, offering extremely low latency.",
-      },
-      {
         name: "mongodb",
         value: "mongodb",
         description:
