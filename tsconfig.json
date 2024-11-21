@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+      "target": "ES2015", // Support private fields and modern features
+      "module": "CommonJS", // For Node.js compatibility
+      "strict": true,
+      "esModuleInterop": true,
+      "skipLibCheck": true, // Avoid checking type definitions in node_modules
+      "outDir": "./dist", // Compiled output directory
+      "moduleResolution": "node"
+    },
+    "include": ["./**/*.ts"],
+    "exclude": ["node_modules"]
+  }
+  

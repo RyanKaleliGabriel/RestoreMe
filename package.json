@@ -1,0 +1,22 @@
+{
+  "name": "restoreme",
+  "version": "1.0.0",
+  "description": "A database backup utility that can backup and restore any DB",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RyanKaleliGabriel/RestoreMe.git"
+  },
+  "author": "Ryan Kaleli Gabriel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RyanKaleliGabriel/RestoreMe/issues"
+  },
+  "homepage": "https://github.com/RyanKaleliGabriel/RestoreMe#readme",
+  "dependencies": {
+    "@inquirer/prompts": "^7.1.0"
+  }
+}
