@@ -45,6 +45,7 @@ services:
      - "27017:27017"
     volumes:
       - mongo_data:/data/lib
+      - ./backups:/backup
       - ./db/mongo/init.js:/docker-entrypoint-initdb.d/init.js
 
 volumes:
