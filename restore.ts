@@ -1,12 +1,13 @@
 import { Command } from "commander";
-import { mongoDbBackup } from "./services/mongodb";
-import { mysqlBackup } from "./services/mysql";
-import { postgresBackup } from "./services/postgresql";
+import { mongoRestore } from "./services/mongodb";
+import { mysqlRestore } from "./services/mysql";
+import { postgresRestore } from "./services/postgresql";
+
 const program = new Command();
 
 program
-  .command("backup")
-  .description("Backup a database")
+  .command("restore")
+  .description("Restore a backed up database")
   .requiredOption(
     "-dt, --db-type <type>",
     "Database type (postgres, mysql, mongodb)"
@@ -19,23 +20,22 @@ program
   .action(async (options) => {
     try {
       const { dbType, host, port, user, password, database } = options;
-
       switch (dbType) {
         case "postgres":
-          await postgresBackup(options);
+          await postgresRestore(options);
           break;
         case "mysql":
-          await mysqlBackup(options);
+          await mysqlRestore(options);
           break;
         case "mongodb":
-          await mongoDbBackup(options);
+          await mongoRestore(options);
           break;
         default:
           console.error("Unsupported database type");
       }
     } catch (error: any) {
-      console.error("Backup failed:", error.message);
+      console.error("Backup restore failed", error.message);
     }
   });
 
-program.parse(process.argv);
+  program.parse(process.argv)

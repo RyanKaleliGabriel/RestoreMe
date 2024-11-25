@@ -1,9 +1,8 @@
 import { exec } from "node:child_process";
+import path from "path";
 import { Client } from "pg";
 import { dbParams } from "../../models/universal";
-import path from "path";
 import { ensureBackupDirectory } from "../../utils/ensureBackupDirectory";
-
 
 // 1. Connect to the database.
 // 2. Export data
@@ -24,7 +23,7 @@ export const postgresBackup = async ({
       password,
       database,
     });
-  
+
     await client.connect();
     console.log(`Connected to postgreSQL!`);
 
@@ -33,7 +32,9 @@ export const postgresBackup = async ({
 
     const outputPath = path.join(
       backupDir,
-      `postgres-${database}_${new Date().toISOString().replace(/[:.]/g, "-")}.sql`
+      `postgres-${database}_${new Date()
+        .toISOString()
+        .replace(/[:.]/g, "-")}.sql`
     );
 
     // Construct the pg_dump. pg_dump is a utility for backing up a PostgreSQL database.
@@ -60,6 +61,48 @@ export const postgresBackup = async ({
     return outputPath;
   } catch (error: any) {
     console.error("Error during backup:", error);
+    throw error;
+  }
+};
+
+export const postgresRestore = async ({
+  host,
+  port,
+  user,
+  password,
+  database,
+}: dbParams) => {
+  try {
+    const client = new Client({
+      host,
+      port,
+      user,
+      password,
+      database,
+    });
+
+    await client.connect();
+    console.log(`Connected to postgres db: ${database}`);
+    const fileName = `./backups/postgres-sample_2024-11-22T13-54-23-702Z.sql`;
+
+    const restoreCommand = `docker exec postgres_db sh -c 'pg_restore -U ${user} -d ${database} < ${fileName}'`;
+
+    await new Promise<void>((resolve, reject) => {
+      exec(restoreCommand, (error, stdout, stderr) => {
+        if (error) {
+          console.log("Error when restoring db", stderr);
+          return reject(error);
+        }
+        console.log("Successfully restored db", stdout);
+        return resolve();
+      });
+    });
+
+    console.log("Backup restoration done");
+
+    await client.end();
+  } catch (error: any) {
+    console.error("Error during restoration");
     throw error;
   }
 };

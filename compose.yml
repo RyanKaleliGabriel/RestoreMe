@@ -12,6 +12,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/postgres_data
+      -  ./backups:/backups
       - ./db/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql #Mount init.sql file here
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
@@ -31,6 +32,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      -  ./backups:/backups
       - ./db/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   mongodb:
@@ -45,7 +47,7 @@ services:
      - "27017:27017"
     volumes:
       - mongo_data:/data/lib
-      - ./backups:/backup
+      - ./backups:/backups
       - ./db/mongo/init.js:/docker-entrypoint-initdb.d/init.js
 
 volumes:
