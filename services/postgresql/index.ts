@@ -1,6 +1,7 @@
 import { exec } from "node:child_process";
 import path from "path";
 import { Client } from "pg";
+import { backupFailures, backupSuccess } from "../../index";
 import { dbParams } from "../../models/universal";
 import { ensureBackupDirectory } from "../../utils/ensureBackupDirectory";
 
@@ -57,10 +58,12 @@ export const postgresBackup = async ({
     });
 
     console.log(`Backup saved at: ${outputPath}`);
+    backupSuccess.inc();
     await client.end();
     return outputPath;
   } catch (error: any) {
     console.error("Error during backup:", error);
+    backupFailures.inc();
     throw error;
   }
 };

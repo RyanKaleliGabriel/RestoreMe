@@ -1,9 +1,9 @@
-import { MongoClient } from "mongodb";
-import { dbParams } from "../../models/universal";
-import path, { resolve } from "path";
-import { ensureBackupDirectory } from "../../utils/ensureBackupDirectory";
 import { exec } from "child_process";
-import { stderr, stdin, stdout } from "process";
+import { MongoClient } from "mongodb";
+import path from "path";
+import { dbParams } from "../../models/universal";
+import { ensureBackupDirectory } from "../../utils/ensureBackupDirectory";
+import { backupFailures, backupSuccess } from "../..";
 
 export const mongoDbBackup = async ({
   host,
@@ -34,6 +34,7 @@ export const mongoDbBackup = async ({
       exec(dumpCommand, (error, stdout, stderr) => {
         if (error) {
           console.error("Backup failed:", stderr);
+          backupFailures.inc()
           return reject(error);
         }
 
@@ -41,9 +42,11 @@ export const mongoDbBackup = async ({
         return resolve();
       });
     });
+    backupSuccess.inc();
     await client.close();
   } catch (error) {
     console.error("Error during backup");
+    backupFailures.inc();
     throw error;
   }
 };

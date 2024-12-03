@@ -3,6 +3,8 @@ import { exec } from "node:child_process";
 import path from "path";
 import { dbParams } from "../../models/universal";
 import { ensureBackupDirectory } from "../../utils/ensureBackupDirectory";
+import { backupFailures, backupSuccess } from "../..";
+
 // 1. Connect to the db
 // 2. Export the file
 // 3. Save th exported data to a file
@@ -45,6 +47,7 @@ export const mysqlBackup = async ({
       exec(dumpCommand, (error, stdout, stderr) => {
         if (error) {
           console.error("Backup failed:", stderr);
+          backupFailures.inc()
           return reject(error);
         }
 
@@ -52,9 +55,11 @@ export const mysqlBackup = async ({
         return resolve();
       });
     });
+    backupSuccess.inc()
     await conncetion.end();
   } catch (error: any) {
     console.error("Error during backup", error);
+    backupFailures.inc()
     throw error;
   }
 };
