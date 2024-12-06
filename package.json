@@ -19,6 +19,7 @@
   "homepage": "https://github.com/RyanKaleliGabriel/RestoreMe#readme",
   "dependencies": {
     "@inquirer/prompts": "^7.1.0",
+    "@slack/web-api": "^7.7.0",
     "commander": "^12.1.0",
     "dotenv": "^16.4.6",
     "express": "^4.21.1",

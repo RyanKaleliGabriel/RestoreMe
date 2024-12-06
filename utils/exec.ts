@@ -9,6 +9,7 @@ import {
   removeBackupFile,
 } from "./backupFiles";
 import { ensureBackupDirectory } from "./ensureBackupDirectory";
+import { sendMessageToSlack } from "./slackNotification";
 
 export const backupExec = async (
   type: string,
@@ -65,7 +66,7 @@ export const backupExec = async (
 
   // Status Logs
   console.log(`[INFO] Starting ${type} database backup process`);
-  const startTime = await getTime();
+  const { time: timeStart, timeStartEnd: startTime } = await getTime();
   console.log(`[INFO] Backup start time: ${startTime}`);
 
   await new Promise<void>((resolve, reject) => {
@@ -76,14 +77,18 @@ export const backupExec = async (
         return reject(error);
       }
 
-      console.log("Backup completed successfully", stdout);
+      console.log(`Backup completed successfully`, stdout);
       return resolve();
     });
   });
 
   //Status Logs
-  const endTime = await getTime();
+  const { time: timeEnd, timeStartEnd: endTime } = await getTime();
   console.log(`[INFO] Backup end time: ${endTime}`);
+  console.log(`[INFO] Time take: ${timeEnd - timeStart} ms`);
+
+  //Send Slack Notification.
+  await sendMessageToSlack(`Successfully backed up ${type} database.`);
 };
 
 export const restoreExec = async (
@@ -116,7 +121,7 @@ export const restoreExec = async (
 
   // Status Logs
   console.log(`[INFO] Starting ${type} database restore process`);
-  const startTime = await getTime();
+  const { time: timeStart, timeStartEnd: startTime } = await getTime();
   console.log(`[INFO] Restore start time: ${startTime}`);
 
   await new Promise<void>((resolve, reject) => {
@@ -133,6 +138,10 @@ export const restoreExec = async (
   });
 
   //Status Logs
-  const endTime = await getTime();
+  const { time: timeEnd, timeStartEnd: endTime } = await getTime();
   console.log(`[INFO] Restore end time: ${endTime}`);
+  console.log(`[INFO] Time take: ${timeEnd - timeStart} ms`);
+
+  //Send Slack Notification.
+  await sendMessageToSlack(`Successfully restored ${type} database.`);
 };
