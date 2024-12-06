@@ -31,9 +31,9 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - /etc/mysql/my.cnf:/etc/mysql/my.cnf
+      - ./my.cnf:/etc/mysql/my.cnf
       - mysql_data:/var/lib/mysql
-      -  ./backups:/backups
+      - ./backups:/backups
       - ./db/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   mongodb:
@@ -48,7 +48,7 @@ services:
      - "27017:27017"
     volumes:
       - mongo_data:/data/lib
-      - ./backups:/backups
+      - ./backup:/backup
       - ./db/mongo/init.js:/docker-entrypoint-initdb.d/init.js
 
 volumes:
