@@ -46,22 +46,20 @@ Database Backup Utility
 2. Set Environment Variables
 
 ```bash
-    POSTGRES_PASSWORD=<your_db_password>
-    POSTGRES_USER=<your_db_user>
-    POSTGRES_DB=<your_db_name>
+POSTGRES_PASSWORD=<your_db_password>
+POSTGRES_USER=<your_db_user>
+POSTGRES_DB=<your_db_name>
 
-    MYSQL_PASSWORD=<your_db_password>
-    MYSQL_USER=<your_db_user>
-    MYSQL_DATABASE=<your_db_name>
+MYSQL_PASSWORD=<your_db_password>
+MYSQL_USER=<your_db_user>
+MYSQL_DATABASE=<your_db_name>
 
-    MONGO_USERNAME=<your_db_user>
-    MONGO_PASSWORD=<your_db_password>
-    MONGO_DATABASE=<your_db_name>
+MONGO_USERNAME=<your_db_user>
+MONGO_PASSWORD=<your_db_password>
+MONGO_DATABASE=<your_db_name>
 
-
-
-   SLACK_OAUTH_TOKEN=<your_slack_bot_oauth_token>
-   CHANNEL_ID=<your_slack_channel_id>
+SLACK_OAUTH_TOKEN=<your_slack_bot_oauth_token>
+CHANNEL_ID=<your_slack_channel_id>
 ```
 
 3. Running the CLI: This command will.
